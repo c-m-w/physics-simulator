@@ -28,7 +28,7 @@ export default function LoginPopup(props) {
 
         e.preventDefault();
 
-        const response = await makeAPIRequest("register", "POST", info);
+        const response = await makeAPIRequest("login", "POST", info);
     
         if (response && response.success) {
 

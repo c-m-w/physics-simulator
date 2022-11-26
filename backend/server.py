@@ -2,5 +2,6 @@
 
 # setup flask
     # make sure to enable flask cors
-# add api routes (login, register)
-    # make them actually work
+# add api routes
+    # /api/login POST
+    # /api/register POST
