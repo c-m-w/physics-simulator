@@ -1,10 +1,19 @@
 /// App.js
 
+import {Routes, Route} from "react-router-dom";
+
+import Home from "./pages/Home";
+
 import "./index.css";
 
 function App() {
+
 	return (
-		<h1>test</h1>
+		<Routes>
+			<Route index element={
+				<Home />
+			} />
+		</Routes>
 	);
 }
 

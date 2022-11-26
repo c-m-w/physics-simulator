@@ -1,15 +1,212 @@
 /* index.css */
 
-body {
-  	margin: 0;	
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+* {
+	margin: 0;
+	box-sizing: border-box;
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-		monospace;
+body {
+	/* variables */
+	--dark-blue: #313E5D;
+	--blue: #394970;
+	--light-blue: #8AB4F8;
+	--white: #E0E0E0;
+	--red: #F37D7D;
+
+	/* body style */
+	padding: 1rem;
+
+	font-family: 'Roboto', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	background-color: var(--dark-blue);
+}
+
+/**************************************************
+*
+*	keyframes
+*
+**************************************************/
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+/**************************************************
+*
+*	classes
+*
+**************************************************/
+
+.big {
+	font-size: 1.25rem;
+}
+
+.thin {
+	font-weight: 100;
+}
+
+.thick {
+	font-weight: 700;
+}
+
+.light-blue {
+	color: var(--light-blue);
+}
+
+.white {
+	color: var(--white);
+}
+
+.red {
+	color: var(--red);
+}
+
+.centered {
+	text-align: center;
+}
+
+/**************************************************
+*
+*	global styles
+*
+**************************************************/
+
+label,
+input,
+button {
+	font-family: inherit;
+}
+
+input,
+button {
+	background-color: var(--dark-blue);
+	border: 1px solid var(--light-blue);
+}
+
+input:focus {
+	outline: none;
+}
+
+button {
+	padding: 0.25rem 1.5rem;
+
+	color: var(--white);
+
+	
+	transition: background-color 0.1s linear;
+	transition: opacity 0.1s linear;
+}
+
+button:hover:not(:disabled) {
+	cursor: pointer;
+
+	background-color: var(--blue);
+	transition: background-color 0.1s linear;
+}
+
+button:disabled {
+	cursor: not-allowed;
+
+	opacity: 0.7;
+	transition: opacity 0.1s linear;
+}
+
+/**************************************************
+*
+*	home
+*
+**************************************************/
+
+.user-text {
+	width: max-content;
+	margin-left: auto;
+}
+
+.actions {
+	display: grid;
+	width: max-content;
+	margin: 5rem auto;
+	grid-template-areas: "enter enter"
+						 "login register";
+
+	justify-items: center;
+	gap: 5rem 1rem;
+}
+
+.actions button {
+	font-size: 1.5rem;
+	width: 200px;
+}
+
+#enter {
+	grid-area: enter;
+}
+
+#login-popup {
+	grid-area: login;
+}
+
+#register-popup {
+	grid-area: register;
+}
+
+/**************************************************
+*
+*	popups
+*
+**************************************************/
+
+.popup {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+
+	background-color: rgba(0, 0, 0, 0.4);
+
+	animation: fade-in 0.2s linear;
+}
+
+.popup-body {
+	width: max-content;
+	margin: 0 auto;
+	padding: 1rem 2rem;
+	margin-top: 25vh;
+
+	background-color: var(--dark-blue);
+	border: 1px solid var(--light-blue);
+}
+
+form.login,
+form.register {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 0.75rem;
+}
+
+#repeat-password {
+	grid-column: 2 / span 1;
+}
+
+form.login button,
+form.register button {
+	margin-top: 1rem;
+	grid-column: 1 / span 2;
+}
+
+.status {
+	text-align: center;
+	font-size: 1.25rem;
+	font-weight: 100;
+	margin-top: 1rem;
 }
