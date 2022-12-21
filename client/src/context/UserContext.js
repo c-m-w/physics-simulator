@@ -7,7 +7,7 @@ const userContext = createContext();
 class UserContextProvider extends Component {
 
     state = {
-        email: "",
+        email: "t@t.t",
         password: ""
     }
 
@@ -46,11 +46,11 @@ class UserContextProvider extends Component {
     render() {
 
         const {Provider} = userContext;
-        const {credentials, set, logout, isLoggedIn} = this;
+        const {state, set, logout, isLoggedIn} = this;
 
         return (
             <Provider
-                value={{...credentials, set, logout, isLoggedIn}}>
+                value={{...state, set, logout, isLoggedIn}}>
                     {this.props.children}
             </Provider>
         );
