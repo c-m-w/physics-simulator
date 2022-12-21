@@ -1,6 +1,7 @@
 /// Home.js
 
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 import useUser from "../hooks/useUser";
 
@@ -16,6 +17,7 @@ const Popup = {
 
 export default function Home() {
 
+    const navigate = useNavigate();
     const [popup, setPopup] = useState(Popup.None);
     const user = useUser();
 
@@ -23,7 +25,10 @@ export default function Home() {
         <>
             <MainHeader />
             <div className="actions">
-                <button id="enter">enter</button>
+                <button
+                    ///disabled={!user.isLoggedIn()} 
+                    onClick={() => navigate("/simulator")}
+                    id="enter">enter</button>
                 <button 
                     disabled={user.isLoggedIn()}
                     onClick={() => setPopup(Popup.Login)} 

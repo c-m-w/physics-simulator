@@ -19,7 +19,7 @@ export default function MainHeader() {
 
     return (
         <>
-            <header>
+            <header className="main">
                 {userText}
                 <h1 className="white centered">physics simulator</h1>
             </header>

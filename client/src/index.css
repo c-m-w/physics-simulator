@@ -7,6 +7,7 @@
 
 body {
 	/* variables */
+	--black: #1B2233;
 	--dark-blue: #313E5D;
 	--blue: #394970;
 	--light-blue: #8AB4F8;
@@ -14,7 +15,6 @@ body {
 	--red: #F37D7D;
 
 	/* body style */
-	padding: 1rem;
 
 	font-family: 'Roboto', sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -73,6 +73,13 @@ body {
 	text-align: center;
 }
 
+.absolute-centered {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+}
+
 /**************************************************
 *
 *	global styles
@@ -124,6 +131,10 @@ button:disabled {
 *	home
 *
 **************************************************/
+
+header.main {
+	padding: 1rem;
+}
 
 .user-text {
 	width: max-content;
@@ -209,4 +220,30 @@ form.register button {
 	font-size: 1.25rem;
 	font-weight: 100;
 	margin-top: 1rem;
+}
+
+/**************************************************
+*
+*	simulator
+*
+**************************************************/
+
+header.sub {
+	background-color: var(--dark-blue);
+
+	padding: 0.75rem;
+
+	box-shadow: var(--light-blue) 0px 3px 5px;
+}
+
+canvas,
+.empty-level {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: -1;
+
+	background-color: var(--black);
 }
