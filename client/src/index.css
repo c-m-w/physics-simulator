@@ -99,17 +99,17 @@ button {
 	padding: 0.25rem 1.5rem;
 
 	color: var(--white);
-
 	
-	transition: background-color 0.1s linear;
-	transition: opacity 0.1s linear;
+	transition: background-color 0.1s linear,
+				opacity 0.1s linear;
 }
 
 button:hover:not(:disabled) {
 	cursor: pointer;
 
 	background-color: var(--blue);
-	transition: background-color 0.1s linear;
+	transition: background-color 0.1s linear,
+				opacity 0.1s linear;
 }
 
 button:disabled {
