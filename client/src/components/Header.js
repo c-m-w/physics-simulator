@@ -8,8 +8,6 @@ export default function Header(props) {
     const user = useUser();
     const level = useLevel();
 
-    console.log(user);
-
     return (
         <header className="sub">
             <h2 className="white">physics simulator</h2>
