@@ -45,7 +45,7 @@ export default function Board() {
         renderEngine.beginScene();
         //renderEngine.draw(vertices, colors, 4, false);
         renderEngine.drawTextured(vertices, textureCoordinates, 4, image);
-        setTimeout(renderScene, 50);
+        setTimeout(renderScene, 25);
     }
 
     if (renderEngine)
@@ -54,7 +54,7 @@ export default function Board() {
         renderScene();
     }
 
-    if (false && !level.loaded) {
+    if (!level.loaded) {
 
         return (
             <div className="empty-level">
