@@ -19,7 +19,7 @@ export default function RegisterPopup(props) {
 
     const attemptClosePopup = (e) => {
 
-        e.target.className == "popup" && props.closePopup();
+        e.target.className === "popup" && props.closePopup();
     }
 
     const attemptRegister = async (e) => {
@@ -31,10 +31,11 @@ export default function RegisterPopup(props) {
     
         if (response && response.success) {
 
-            /// ...
+            props.closePopup();
+            /// todo success notification
         } else {
 
-            setStatus("error")
+            setStatus(response.message);
         }
     }
 

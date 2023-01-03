@@ -26,7 +26,7 @@ export default function Home() {
             <MainHeader />
             <div className="actions">
                 <button
-                    ///disabled={!user.isLoggedIn()} 
+                    disabled={!user.isLoggedIn()} 
                     onClick={() => navigate("/simulator")}
                     id="enter">enter</button>
                 <button 
@@ -37,8 +37,8 @@ export default function Home() {
                     onClick={() => setPopup(Popup.Register)} 
                     id="register-popup">register</button>
             </div>
-            {popup == Popup.Login && <LoginPopup closePopup={() => setPopup(Popup.None)} />}
-            {popup == Popup.Register && <RegisterPopup closePopup={() => setPopup(Popup.None)} />}
+            {popup === Popup.Login && <LoginPopup closePopup={() => setPopup(Popup.None)} />}
+            {popup === Popup.Register && <RegisterPopup closePopup={() => setPopup(Popup.None)} />}
         </>
-    )
+    );
 }

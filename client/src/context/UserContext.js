@@ -24,6 +24,11 @@ class UserContextProvider extends Component {
         localStorage.setItem("credentials", JSON.stringify(creds));
     }
 
+    get = () => {
+
+        return {...this.state};
+    }
+
     logout = () => {
 
         this.setState({
@@ -46,11 +51,11 @@ class UserContextProvider extends Component {
     render() {
 
         const {Provider} = userContext;
-        const {state, set, logout, isLoggedIn} = this;
+        const {state, set, get, logout, isLoggedIn} = this;
 
         return (
             <Provider
-                value={{...state, set, logout, isLoggedIn}}>
+                value={{...state, set, get, logout, isLoggedIn}}>
                     {this.props.children}
             </Provider>
         );

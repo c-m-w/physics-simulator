@@ -25,19 +25,20 @@ def default():
 @app.route("/api/register", methods=["POST"])
 def register():
     
-    username = request.json["email"]
+    email = request.json["email"]
     password = request.json["password"]
     repeated_password = request.json["repeatPassword"]
 
     if password != repeated_password:
 
         return make_response(False, "passwords don't match")
+    
     try:
 
-        db.session.execute(db.select(User).where(User.username == username)).scalars().one()
+        db.session.execute(db.select(User).where(User.email == email)).scalars().one()
     except:
 
-        db.session.add(User(username = username, password = password))
+        db.session.add(User(email = email, password = password))
         db.session.commit()
 
         return make_response(True)
@@ -47,12 +48,12 @@ def register():
 @app.route("/api/login", methods=["POST"])
 def login():
 
-    username = request.json["email"]
+    email = request.json["email"]
     password = request.json["password"]
     
     try:
 
-        userQuery = db.session.execute(db.select(User).where(User.username==username)).scalars().one()
+        userQuery = db.session.execute(db.select(User).where(User.email==email)).scalars().one()
     except:
 
         return make_response(False, "user not found")
@@ -64,4 +65,5 @@ def login():
     return make_response(False, "bad password")
 
 if __name__ == "__main__":
+
     app.run(debug=True, host="0.0.0.0", port="5000")

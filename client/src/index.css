@@ -7,6 +7,7 @@
 
 body {
 	/* variables */
+
 	--black: #1B2233;
 	--dark-blue: #313E5D;
 	--blue: #394970;
@@ -67,6 +68,14 @@ body {
 
 .red {
 	color: var(--red);
+}
+
+.translucent {
+	opacity: 0.75;
+}
+
+.clickable {
+	cursor: pointer;
 }
 
 .centered {
@@ -264,14 +273,43 @@ header.sub {
 	padding-right: 0;
 }
 
+.empty-level,
 canvas,
-.empty-level {
+.level-controls {
 	position: absolute;
 	left: 0;
 	top: 0;
 	height: 100vh;
 	width: 100vw;
 	z-index: -1;
+}
 
-	background-color: var(--black);
+.level-controls > *
+{
+	background: var(--white);
+	border-radius: 5px;
+	padding: 0.5rem;
+	font-weight: 300;
+
+	position: absolute;
+}
+
+.level-controls > img {
+	width: 2.25rem;
+	height: 2.25rem;
+}
+
+#position {
+	left: 1rem;
+	top: 4.25rem;
+}
+
+#new-item {
+	right: 1rem;
+	top: 4.25rem;
+}
+
+#edit-level {
+	right: 1rem;
+	top: 7.25rem;
 }

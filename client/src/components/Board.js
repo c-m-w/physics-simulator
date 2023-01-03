@@ -40,7 +40,7 @@ export default function Board() {
             0.5, // white
         ];
 
-        const image = await loadImage("ball_red.png");
+        const image = await loadImage("/images/ball_0.png");
 
         renderEngine.beginScene();
         //renderEngine.draw(vertices, colors, 4, false);
@@ -54,7 +54,7 @@ export default function Board() {
         renderScene();
     }
 
-    if (!level.loaded) {
+    if (!level.loaded()) {
 
         return (
             <div className="empty-level">
@@ -62,12 +62,24 @@ export default function Board() {
                     load or create a level to begin...
                 </h2>
             </div>
-        )
+        );
     }
 
     return (
-        <canvas 
-            id="board" 
-            ref={e => e !== null && renderEngine === null && setRenderEngine(new RenderEngine(e))} />
+        <>
+            <canvas 
+                id="board" 
+                ref={e => e !== null && renderEngine === null && setRenderEngine(new RenderEngine(e))} />
+            <span className="level-controls">
+                <p id="position">(0, 0) m</p>
+                <img className="clickable"
+                    id="new-item"
+                    src="/images/plus.png"
+                    onClick={() => level.current().newObject()} />
+                <img className="clickable"
+                    id="edit-level"
+                    src="/images/gear.png" />
+            </span>
+        </>
     )
 }

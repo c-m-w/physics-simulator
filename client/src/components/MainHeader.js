@@ -10,8 +10,8 @@ export default function MainHeader() {
         <div className="user-text">
             {user.isLoggedIn() ? 
                 <>
-                    <p className="big thin light-blue">logged in as a</p>
-                    <p className="big thin red" onClick={() => user.logout()}>logout</p>
+                    <span className="big thin light-blue">logged in as {user.get().email} </span>
+                    <span className="thin red translucent clickable" onClick={() => user.logout()}>(logout)</span>
                 </> :
                 <p className="big thin light-blue">not logged in</p>
             }

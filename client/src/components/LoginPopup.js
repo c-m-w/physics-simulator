@@ -4,6 +4,8 @@ import {useState} from "react";
 
 import makeAPIRequest from "../utils/makeAPIRequest";
 
+import useUser from "../hooks/useUser";
+
 // todo make popups into one fn
 
 export default function LoginPopup(props) {
@@ -13,6 +15,7 @@ export default function LoginPopup(props) {
         password: ""
     });
     const [status, setStatus] = useState("");
+    const user = useUser();
 
     const changeInfo = (e) => {
 
@@ -21,7 +24,7 @@ export default function LoginPopup(props) {
 
     const attemptClosePopup = (e) => {
 
-        e.target.className == "popup" && props.closePopup();
+        e.target.className === "popup" && props.closePopup();
     }
 
     const attemptLogin = async (e) => {
@@ -32,10 +35,12 @@ export default function LoginPopup(props) {
     
         if (response && response.success) {
 
-            /// ...
+            props.closePopup();
+            user.set(info);
+            /// todo success notification
         } else {
 
-            setStatus("error")
+            setStatus(response.message);
         }
     }
 

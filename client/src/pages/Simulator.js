@@ -1,6 +1,7 @@
 /// Simulator.js
 
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 import useUser from "../hooks/useUser";
 
@@ -19,6 +20,7 @@ export default function Simulator() {
 
     const user = useUser();
     const [popup, setPopup] = useState(Popup.None);
+    const navigate = useNavigate();
 
     const newLevel = () => {
 
@@ -29,6 +31,12 @@ export default function Simulator() {
 
         setPopup(Popup.LoadLevel);
     };
+
+    if (!user.isLoggedIn()) {
+
+        navigate("/");
+        return <></>;
+    }
 
     return (
         <>

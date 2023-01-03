@@ -3,6 +3,7 @@
 import {useState} from "react";
 
 import makeAPIRequest from "../utils/makeAPIRequest";
+import useLevel from "../hooks/useLevel";
 
 // todo make popups into one fn
 
@@ -10,6 +11,7 @@ export default function NewLevelPopup(props) {
 
     const [name, setName] = useState("");
     const [status, setStatus] = useState("");
+    const level = useLevel();
 
     const changeName = (e) => {
 
@@ -18,25 +20,22 @@ export default function NewLevelPopup(props) {
 
     const attemptClosePopup = (e) => {
 
-        e.target.className == "popup" && props.closePopup();
+        e.target.className === "popup" && props.closePopup();
     }
 
     const attemptCreateLevel = async (e) => {
 
         e.preventDefault();
 
-        const response = await makeAPIRequest("login", "POST", name);
+        const response = await level.create(name);
     
         if (response && response.success) {
 
-            /// ...
+            props.closePopup();
+            /// todo success notification
         } else {
 
-            setStatus("error")
-        }
-
-        { /// delete this
-            
+            setStatus(response.message);
         }
     }
 
