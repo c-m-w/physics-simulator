@@ -26,6 +26,7 @@ export default function RegisterPopup(props) {
 
         e.preventDefault();
 
+        console.log(info);
         const response = await makeAPIRequest("register", "POST", info);
     
         if (response && response.success) {
