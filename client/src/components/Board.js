@@ -2,56 +2,47 @@
 
 import {useState} from "react";
 
+import Vector from "../types/Vector";
 import useLevel from "../hooks/useLevel";
-import loadImage from "../utils/loadImage";
-import timeSinceEpoch from "../utils/timeSinceEpoch";
+import {TICK_INTERVAL} from "../types/Constants";
 
 import RenderEngine from "../drawing/RenderEngine";
+import EditObjectPopup from "./EditObjectPopup";
+
+const Popup = {
+    None: 0,
+    EditLevel: 1,
+    EditObject: 2
+}
 
 export default function Board() {
 
     const level = useLevel();
     const [renderEngine, setRenderEngine] = useState(null);
-    let y = 0;
+    const [createdThread, setCreatedThread] = useState(false);
+    const [origin, setOrigin] = useState(new Vector(0, 0, 0));
+    const [playing, setPlaying] = useState(false);
+    const [popup, setPopup] = useState(Popup.None);
 
     async function renderScene() {
-        
-        //const vertices = [0.1, 0.1, -0.1, 0.1, 0.1, -0.1, -0.1, -0.1];
-        const f1 = (1 + Math.sin(timeSinceEpoch() / 1500)) / 2;
-        const f2 = (1 + Math.cos(timeSinceEpoch() / 1500)) / 2
-        const vertices = [f1, f1, -f2, f2, f1, -f1, -f2, -f2];
-        const textureCoordinates = [1.0, 1.0, 0, 1.0, 1.0, 0, 0, 0];
-        const colors = [
-            1.0,
-            1.0,
-            1.0,
-            1.0, // white
-            1.0,
-            0.0,
-            0.0,
-            1.0, // red
-            0.0,
-            1.0,
-            0.0,
-            1.0, // green
-            1.0,
-            1.0,
-            1.0,
-            0.5, // white
-        ];
-
-        const image = await loadImage("/images/ball_0.png");
 
         renderEngine.beginScene();
-        //renderEngine.draw(vertices, colors, 4, false);
-        renderEngine.drawTextured(vertices, textureCoordinates, 4, image);
-        setTimeout(renderScene, 25);
+        await level.current().draw(renderEngine);
+        setTimeout(renderScene, TICK_INTERVAL);
+
+        const x = level.current().origin.x.toFixed(1);
+        const y = level.current().origin.y.toFixed(1);
+
+        if (x != origin.x
+            || y != origin.y)
+            (async () => {setOrigin(new Vector(x, y, 0))})();
     }
 
-    if (renderEngine)
-    {
+    if (renderEngine && !createdThread) {
+
         console.log(renderEngine);
         renderScene();
+        setCreatedThread(true);
     }
 
     if (!level.loaded()) {
@@ -69,17 +60,46 @@ export default function Board() {
         <>
             <canvas 
                 id="board" 
+                draggable
                 ref={e => e !== null && renderEngine === null && setRenderEngine(new RenderEngine(e))} />
             <span className="level-controls">
-                <p id="position">(0, 0) m</p>
+                <p id="position">({origin.x}, {origin.y}) m</p>
                 <img className="clickable"
                     id="new-item"
                     src="/images/plus.png"
                     onClick={() => level.current().newObject()} />
                 <img className="clickable"
                     id="edit-level"
-                    src="/images/gear.png" />
+                    src="/images/gear.png"
+                    onClick={() => {
+                        
+                        if (level.current().selectedObject) {
+
+                            setPopup(Popup.EditObject);
+                            level.current().selectedObject.position.x = 0;
+                        } else {
+                            
+                            setPopup(Popup.EditLevel);
+                        }
+                    }} />
+                {playing ? 
+                <img className="clickable"
+                    id="play-level"
+                    src="/images/stop.png"
+                    onClick={() => {
+                        level.current().stop();
+                        setPlaying(false);
+                    }} /> :
+                <img className="clickable"
+                    id="play-level"
+                    src="/images/play.png"
+                    onClick={() => {
+                        level.current().play();
+                        setPlaying(true);
+                    }} /> }
             </span>
+            {popup === Popup.EditLevel && <></>}
+            {popup === Popup.EditObject && <EditObjectPopup object={level.current().selectedObject} closePopup={() => setPopup(Popup.None)} />}
         </>
     )
 }

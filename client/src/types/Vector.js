@@ -11,4 +11,9 @@ export default class Vector {
         this.y = y;
         this.z = z;
     }
+
+    length() {
+
+        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    }
 }

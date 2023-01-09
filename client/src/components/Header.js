@@ -26,7 +26,7 @@ export default function Header(props) {
                     level.loaded() &&
                     <button
                         className="header-element light-blue thin"
-                        onClick={level.save()}>
+                        onClick={level.save}>
                         save "{level.get().name}"
                     </button>
                 }

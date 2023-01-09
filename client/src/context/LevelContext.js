@@ -13,9 +13,8 @@ class LevelContextProvider extends Component {
         id: -1,
         data: "",
         name: ""
-    }
-
-    level = null
+    };
+    level = null;
 
     create = async (name) => {
 
@@ -56,7 +55,7 @@ class LevelContextProvider extends Component {
 
     componentDidMount() {
 
-        this.load();
+        //this.load(); what the fuck?
     }
 
     render() {
@@ -66,7 +65,7 @@ class LevelContextProvider extends Component {
 
         return (
             <Provider
-                value={{create, load, save, get, current, loaded,...state}}>
+                value={{create, load, save, get, current, loaded, ...state}}>
                     {this.props.children}
             </Provider>
         );

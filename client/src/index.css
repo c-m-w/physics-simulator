@@ -206,6 +206,7 @@ header.main {
 	border: 1px solid var(--light-blue);
 }
 
+form.general,
 form.login,
 form.register {
 	margin-top: 2rem;
@@ -218,6 +219,7 @@ form.register {
 	grid-column: 2 / span 1;
 }
 
+form.general button,
 form.login button,
 form.register button {
 	margin-top: 1rem;
@@ -284,6 +286,10 @@ canvas,
 	z-index: -1;
 }
 
+.level-controls {
+	pointer-events: none;
+}
+
 .level-controls > *
 {
 	background: var(--white);
@@ -292,6 +298,7 @@ canvas,
 	font-weight: 300;
 
 	position: absolute;
+	pointer-events: all;
 }
 
 .level-controls > img {
@@ -312,4 +319,10 @@ canvas,
 #edit-level {
 	right: 1rem;
 	top: 7.25rem;
+}
+
+#play-level,
+#stop-level {
+	right: 1rem;
+	top: 10.25rem;
 }

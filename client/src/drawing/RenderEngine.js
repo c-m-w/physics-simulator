@@ -2,6 +2,8 @@
 
 import {vsDefaultSource, fsDefaultSource, vsTextureSource, fsTextureSource} from "./shaders.js";
 
+import Vector from "../types/Vector.js";
+
 class RenderEngine
 {
     makeShaders(vsSource, fsSource)
@@ -44,12 +46,35 @@ class RenderEngine
         return null;
     }
 
+    setCanvasSize() {
+
+        this.canvas.width = this.canvas.clientWidth;
+        this.canvas.height = this.canvas.clientHeight;
+
+        if (this.gl)
+            this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    getCanvasSize() {
+
+        return new Vector(this.canvas.width, this.canvas.height, 0);
+    }
+
+    getCanvas() {
+
+        return this.canvas;
+    }
+
     constructor(boardElement)
     {
         this.canvas = boardElement;
-        this.canvas.width = this.canvas.clientWidth;
-        this.canvas.height = this.canvas.clientHeight;
+        this.setCanvasSize();
         this.gl = this.canvas.getContext("webgl2");
+
+        window.addEventListener("resize", () => {
+
+            this.setCanvasSize();
+        })
 
         if (null == this.gl)
         {
@@ -69,6 +94,23 @@ class RenderEngine
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.enable(this.gl.BLEND);
         this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    }
+
+    pixelsToVertices(pixels) {
+
+        const size = this.getCanvasSize();
+
+        let vertices = [];
+
+        for (const vec of pixels) {
+
+            vertices.push(
+                (2.0 * vec.x - size.x) / size.x,
+                (size.y - 2.0 * vec.y) / size.y
+            );
+        }
+
+        return vertices;
     }
 
     beginScene()
@@ -91,19 +133,6 @@ class RenderEngine
     bindTexture(image) {
 
         const texture = this.gl.createTexture();
-        const tempPixels = [255, 0, 255, 255];
-
-        // this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
-        // this.gl.texImage2D(this.gl.TEXTURE_2D,
-        //                    0,
-        //                    this.gl.RGBA,
-        //                    1,
-        //                    1,
-        //                    0,
-        //                    this.gl.RGBA,
-        //                    this.gl.UNSIGNED_BYTE,
-        //                    new Uint8Array(tempPixels));
-        //this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, true);
 
         this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
         this.gl.texImage2D(this.gl.TEXTURE_2D, 
