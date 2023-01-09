@@ -16,4 +16,19 @@ export default class Vector {
 
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
     }
+
+    cos() {
+
+        return this.x / this.length();
+    }
+
+    sin() {
+
+        return this.y / this.length();
+    }
+
+    tan() {
+
+        return this.y / this.x;
+    }
 }

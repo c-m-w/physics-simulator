@@ -162,7 +162,7 @@ export default class Level {
             return;
         }
 
-        this.objects.unshift(new Object(new Vector(0, 0, 0), new Vector(0, 0, 0), 1, 1));
+        this.objects.unshift(new Object(new Vector(0, 0, 0), new Vector(0, 0, 0), 0, 0));
     }
 
     async drawBackground(renderEngine) {
@@ -211,9 +211,20 @@ export default class Level {
         if (!this.registeredEvents)
             this.registerEvents(renderEngine);
 
-        if (this.isPlaying())
-            for (const object of this.objects)
+        if (this.isPlaying()) {
+
+            for (const object of this.objects) {
                 object.updatePosition();
+
+                for (const o of this.objects) {
+
+                    if (o !== object) {
+
+                        object.interact(o);
+                    }
+                }
+            }
+        }
 
         await this.drawBackground(renderEngine);
         await this.drawAxes(renderEngine);

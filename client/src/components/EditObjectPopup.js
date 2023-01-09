@@ -18,16 +18,7 @@ export default function EditObjectPopup(props) {
 
     const changeInfo = (e) => {
 
-        console.log("test");
-        if (e.target.type == "checkbox") {
-
-            console.log("checked")
-            console.log(info[e.target.name])
-            setInfo(oldInfo => ({...(oldInfo), fixed: !oldInfo.fixed}));
-        } else {
-
-            setInfo(oldInfo => ({...(oldInfo), [e.target.name]: e.target.value}));
-        }
+        setInfo(oldInfo => ({...(oldInfo), [e.target.name]: e.target.value}));
     };
 
     const attemptClosePopup = (e) => {
@@ -42,10 +33,12 @@ export default function EditObjectPopup(props) {
         props.object.charges[FieldType.Gravitational] = parseInt(info.massCharge);
         props.object.charges[FieldType.Electric] = parseInt(info.electricCharge);
         props.object.fixed = info.fixed;
+
+        props.closePopup();
     };
 
     return (
-        <div className="popup" onClick={attemptClosePopup}>
+        <div className="popup">
             <div className="popup-body">
                 <h2 className="white centered">edit object</h2>
                 <form className="general" onSubmit={attemptClosePopup}>
@@ -108,16 +101,6 @@ export default function EditObjectPopup(props) {
                         id="electricCharge"
                         className="big thin white"
                         value={info.electricCharge}
-                        onChange={changeInfo} />
-                    <label 
-                        className="big thin white"
-                        htmlFor="fixed">fixed</label>
-                    <input
-                        type="checkbox"
-                        name="fixed"
-                        id="fixed"
-                        className="big thin white"
-                        checked={info.fixed}
                         onChange={changeInfo} />
                     <button className="big">done</button>
                 </form>

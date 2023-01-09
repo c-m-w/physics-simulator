@@ -128,6 +128,8 @@ class RenderEngine
 
         this.gl.vertexAttribPointer(attributeLocation, nComponents, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(attributeLocation);
+
+        return buffer;
     }
 
     bindTexture(image) {
@@ -144,27 +146,36 @@ class RenderEngine
         this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
         this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
         this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
+
+        return texture;
     }
 
     draw(vertexArray, colorArray, nVertices, outline = false)
     {
         this.gl.useProgram(this.defaultProgram);
 
-        this.bindBuffer(vertexArray, 2, "vertexPosition", this.defaultProgram);
-        this.bindBuffer(colorArray, 4, "vertexColor", this.defaultProgram);
+        const vbuffer = this.bindBuffer(vertexArray, 2, "vertexPosition", this.defaultProgram);
+        const cbuffer = this.bindBuffer(colorArray, 4, "vertexColor", this.defaultProgram);
 
         this.gl.drawArrays(outline ? this.gl.LINE_STRIP : this.gl.TRIANGLE_STRIP, 0, nVertices);
+
+        this.gl.deleteBuffer(vbuffer);
+        this.gl.deleteBuffer(cbuffer);
     }
 
     drawTextured(vertexArray, uvArray, nVertices, image)
     {
         this.gl.useProgram(this.textureProgram);
 
-        this.bindBuffer(vertexArray, 2, "vertexPosition", this.textureProgram);
-        this.bindBuffer(uvArray, 2, "uvCoordinate", this.textureProgram);
-        this.bindTexture(image);
+        const vbuffer = this.bindBuffer(vertexArray, 2, "vertexPosition", this.textureProgram);
+        const ubuffer = this.bindBuffer(uvArray, 2, "uvCoordinate", this.textureProgram);
+        const texture = this.bindTexture(image);
         
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, nVertices);
+
+        this.gl.deleteBuffer(vbuffer);
+        this.gl.deleteBuffer(ubuffer);
+        this.gl.deleteTexture(texture);
     }
 }
 

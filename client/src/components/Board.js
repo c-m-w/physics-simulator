@@ -76,7 +76,6 @@ export default function Board() {
                         if (level.current().selectedObject) {
 
                             setPopup(Popup.EditObject);
-                            level.current().selectedObject.position.x = 0;
                         } else {
                             
                             setPopup(Popup.EditLevel);
