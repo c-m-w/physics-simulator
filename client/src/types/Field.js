@@ -1,5 +1,7 @@
 /// Field.js
 
+import {evaluate} from "mathjs";
+
 const FieldType = {
     Gravitational: 0,
     Electric: 1
@@ -8,12 +10,24 @@ const FieldType = {
 class Field {
 
     type = FieldType.Gravitational;
-    magnitude = 9.81;
+    expression = "1"
 
-    constructor(type, magntiude) {
+    constructor(type, expression) {
 
         this.type = type;
-        this.magntiude = magntiude;
+        this.expression = expression;
+    }
+
+    evaluate(obj) {
+
+        const scope = {
+            x: obj.position.x,
+            y: obj.position.y,
+            v_x: obj.velocity.x,
+            v_y: obj.velocity.y
+        };
+
+        return evaluate(this.expression, scope);
     }
 }
 

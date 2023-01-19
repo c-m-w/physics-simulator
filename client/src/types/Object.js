@@ -1,5 +1,7 @@
 /// Object.js
 
+import {evaluate} from "mathjs";
+
 import Vector from "./Vector";
 
 import {MAX_TYPES, OBJECT_SIZE, TICK_INTERVAL, G, EPSILON_0} from "./Constants";
@@ -70,13 +72,27 @@ export default class Object {
 
         this.velocity.x += a * rel.cos() * TICK_INTERVAL / 1000;
         this.velocity.y += a * rel.sin() * TICK_INTERVAL / 1000;
+    }
 
-        console.log("a");
-        console.log(a);
-        console.log("this charge");
-        console.log(this.charges[FieldType.Electric]);
-        console.log("other charge");
-        console.log(other.charges[FieldType.Electric]);
+    feel(field) {
+
+        const scope = {
+            x: this.position.x,
+            y: this.position.y,
+            v_x: this.velocity.x,
+            v_y: this.velocity.y
+        };
+
+        if (this.charges[field.type] === 0) {
+
+            return;
+        }
+
+        const a_x = evaluate(field.x, scope) / this.charges[field.type];
+        const a_y = evaluate(field.y, scope) / this.charges[field.type];
+
+        this.velocity.x += a_x * TICK_INTERVAL / 1000;
+        this.velocity.y += a_y * TICK_INTERVAL / 1000;
     }
 
     async draw(renderEngine, origin, zoomFactor, selected) {

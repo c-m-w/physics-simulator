@@ -214,6 +214,7 @@ export default class Level {
         if (this.isPlaying()) {
 
             for (const object of this.objects) {
+
                 object.updatePosition();
 
                 for (const o of this.objects) {
@@ -222,6 +223,11 @@ export default class Level {
 
                         object.interact(o);
                     }
+                }
+
+                for (const f of this.fields) {
+
+                    object.feel(f);
                 }
             }
         }

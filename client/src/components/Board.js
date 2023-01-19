@@ -8,6 +8,7 @@ import {TICK_INTERVAL} from "../types/Constants";
 
 import RenderEngine from "../drawing/RenderEngine";
 import EditObjectPopup from "./EditObjectPopup";
+import EditLevelPopup from "./EditLevelPopup";
 
 const Popup = {
     None: 0,
@@ -97,7 +98,7 @@ export default function Board() {
                         setPlaying(true);
                     }} /> }
             </span>
-            {popup === Popup.EditLevel && <></>}
+            {popup === Popup.EditLevel && <EditLevelPopup level={level.current()} closePopup={() => setPopup(Popup.None)} />}
             {popup === Popup.EditObject && <EditObjectPopup object={level.current().selectedObject} closePopup={() => setPopup(Popup.None)} />}
         </>
     )

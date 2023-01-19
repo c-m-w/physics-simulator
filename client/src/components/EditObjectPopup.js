@@ -26,12 +26,12 @@ export default function EditObjectPopup(props) {
         e.preventDefault();
         e.target.className === "popup" && props.closePopup();
 
-        props.object.position.x = parseInt(info.positionX);
-        props.object.position.y = parseInt(info.positionY);
-        props.object.velocity.x = parseInt(info.velocityX);
-        props.object.velocity.y = parseInt(info.velocityY);
-        props.object.charges[FieldType.Gravitational] = parseInt(info.massCharge);
-        props.object.charges[FieldType.Electric] = parseInt(info.electricCharge);
+        props.object.position.x = parseFloat(info.positionX);
+        props.object.position.y = parseFloat(info.positionY);
+        props.object.velocity.x = parseFloat(info.velocityX);
+        props.object.velocity.y = parseFloat(info.velocityY);
+        props.object.charges[FieldType.Gravitational] = parseFloat(info.massCharge);
+        props.object.charges[FieldType.Electric] = parseFloat(info.electricCharge);
         props.object.fixed = info.fixed;
 
         props.closePopup();
