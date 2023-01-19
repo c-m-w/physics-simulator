@@ -2,6 +2,8 @@
 
 import {evaluate} from "mathjs";
 
+import Vector from "./Vector";
+
 const FieldType = {
     Gravitational: 0,
     Electric: 1
@@ -10,24 +12,27 @@ const FieldType = {
 class Field {
 
     type = FieldType.Gravitational;
-    expression = "1"
+    x = "0";
+    y = "0"
 
-    constructor(type, expression) {
+    constructor(type, x, y) {
 
         this.type = type;
-        this.expression = expression;
+        this.x = x;
+        this.y = y;
     }
 
-    evaluate(obj) {
+    evaluate(obj, t) {
 
         const scope = {
             x: obj.position.x,
             y: obj.position.y,
             v_x: obj.velocity.x,
-            v_y: obj.velocity.y
+            v_y: obj.velocity.y,
+            t: t
         };
 
-        return evaluate(this.expression, scope);
+        return new Vector(evaluate(this.x, scope), evaluate(this.y, scope), 0);
     }
 }
 

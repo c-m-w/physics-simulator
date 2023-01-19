@@ -1,9 +1,11 @@
 /// Level.js
 
 import Vector from "./Vector";
-import { Field } from "./Field";
+import {Field, FieldType} from "./Field";
 import Object from "./Object";
 import {OBJECT_SIZE} from "./Constants";
+
+import timeSinceEpoch from "../utils/timeSinceEpoch";
 
 export default class Level {
 
@@ -15,6 +17,7 @@ export default class Level {
     zoomFactor = 100; // pixels / m
 
     playing = false;
+    startTime = 0;
     registeredEvents = false;
     selectedObject = null;
     dragStart = new Vector(0, 0, 0);
@@ -30,7 +33,20 @@ export default class Level {
                                  obj["massCharge"], obj["electricCharge"]));
 
         for (const field of data["fields"])
-            this.fields.unshift(new Field(field["type"], field["magnitude"]));
+            this.fields.unshift(new Field(field["type"], field["x"], field["y"]));
+    }
+
+    toDataString() {
+
+        return JSON.stringify({objects: this.objects.map(o => {
+            return {x: o.position.x, y: o.position.y, z: o.position.z,
+                v_x: o.velocity.x, v_y: o.velocity.y, v_z: o.velocity.z,
+                massCharge: o.charges[FieldType.Gravitational],
+                electricCharge: o.charges[FieldType.Electric]}
+        }),
+        fields: this.fields.map(f => {
+            return {type: f.type, x: f.x, y: f.y}
+        })});
     }
 
     isPlaying() {
@@ -50,6 +66,7 @@ export default class Level {
         }
 
         this.playing = true;
+        this.startTime = timeSinceEpoch();
     }
 
     stop() {
@@ -213,6 +230,8 @@ export default class Level {
 
         if (this.isPlaying()) {
 
+            const runningTime = (timeSinceEpoch() - this.startTime) / 1000.0;
+
             for (const object of this.objects) {
 
                 object.updatePosition();
@@ -227,7 +246,7 @@ export default class Level {
 
                 for (const f of this.fields) {
 
-                    object.feel(f);
+                    object.feel(f, runningTime);
                 }
             }
         }

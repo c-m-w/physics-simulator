@@ -2,7 +2,7 @@
 
 import {useState} from "react";
 
-import {FieldType} from "../types/Field";
+import {Field, FieldType} from "../types/Field";
 
 export default function EditObjectPopup(props) {
 
@@ -10,7 +10,9 @@ export default function EditObjectPopup(props) {
     console.log(props);
 
     const [info, setInfo] = useState({
-        fields: props.level.fields
+        fields: props.level.fields.map(f => {
+            return {type: f.type, x: f.x, y: f.y};
+        })
     });
 
     const changeInfo = (e) => {
@@ -20,7 +22,9 @@ export default function EditObjectPopup(props) {
 
     const attemptClosePopup = () => {
 
-        props.level.fields = info.fields;
+        props.level.fields = info.fields.map(f => {
+            return new Field(f.type, f.x, f.y);
+        });
 
         props.closePopup();
     };

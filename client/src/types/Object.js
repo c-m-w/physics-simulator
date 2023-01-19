@@ -74,7 +74,7 @@ export default class Object {
         this.velocity.y += a * rel.sin() * TICK_INTERVAL / 1000;
     }
 
-    feel(field) {
+    feel(field, runningTime) {
 
         const scope = {
             x: this.position.x,
@@ -88,11 +88,10 @@ export default class Object {
             return;
         }
 
-        const a_x = evaluate(field.x, scope) / this.charges[field.type];
-        const a_y = evaluate(field.y, scope) / this.charges[field.type];
-
-        this.velocity.x += a_x * TICK_INTERVAL / 1000;
-        this.velocity.y += a_y * TICK_INTERVAL / 1000;
+        const F = field.evaluate(this, runningTime);
+        
+        this.velocity.x += F.x / this.charges[field.type] * TICK_INTERVAL / 1000;
+        this.velocity.y += F.y / this.charges[field.type] * TICK_INTERVAL / 1000;
     }
 
     async draw(renderEngine, origin, zoomFactor, selected) {

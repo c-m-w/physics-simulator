@@ -22,20 +22,24 @@ class LevelContextProvider extends Component {
         this.setState({id: 0, data: "", name: name});
         
         this.level = new Level(`
-        {
-            "objects": [],
-            "fields": []
-        }`);
+        {"objects":[{"x":-1.6700000000000013,"y":-0.5000000000000002,"z":0,"v_x":0,"v_y":0,"v_z":0,"massCharge":1,"electricCharge":0}],"fields":[{"type":0,"x":"-x","y":"0"}]}`);
 
         return {success: true};
     }
 
     load = async (id) => {
 
-        this.level = new Level("");
+        this.level = new Level();
     }
 
     save = async () => {
+
+        if (null === this.level) {
+            
+            return;
+        }
+
+        console.log(this.level.toDataString());
     }
 
     get = () => {
