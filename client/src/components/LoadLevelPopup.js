@@ -60,7 +60,7 @@ export default function LoadLevelPopup(props) {
         <div className="popup" onClick={attemptClosePopup}>
             <div className="popup-body">
                 <h2 className="white centered">load level</h2>
-                <form className="login" onSubmit={attemptLoadLevel}>
+                <form className="general" onSubmit={attemptLoadLevel}>
                     <label
                         className="big thin white"
                         htmlFor="level">level</label>

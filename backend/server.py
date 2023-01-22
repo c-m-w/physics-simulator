@@ -64,6 +64,11 @@ def login():
 
     return make_response(False, "bad password")
 
+# level/id PUT (save level)
+# level/id GET (load level)
+# level POST (create level)
+# levels/email (get level list)
+
 if __name__ == "__main__":
 
     app.run(debug=True, host="0.0.0.0", port="5000")
