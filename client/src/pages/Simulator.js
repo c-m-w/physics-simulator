@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import Board from "../components/Board";
 
 import NewLevelPopup from "../components/NewLevelPopup";
+import LoadLevelPopup from "../components/LoadLevelPopup";
 
 const Popup = {
     None: 0,
@@ -45,7 +46,7 @@ export default function Simulator() {
                 loadLevel={loadLevel} />
             <Board />
             {popup === Popup.NewLevel && <NewLevelPopup closePopup={() => setPopup(Popup.None)} />}
-            {popup === Popup.LoadLevel && <NewLevelPopup closePopup={() => setPopup(Popup.None)} />}
+            {popup === Popup.LoadLevel && <LoadLevelPopup closePopup={() => setPopup(Popup.None)} />}
         </>
     );
 }

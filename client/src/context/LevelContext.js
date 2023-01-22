@@ -18,7 +18,13 @@ class LevelContextProvider extends Component {
 
     create = async (name) => {
 
-        // const response = await makeAPIRequest("level", "POST", name);
+        const response = await makeAPIRequest("level", "POST", name);
+
+        if (response && response.success) {
+
+            this.load(response.id);
+        }
+
         this.setState({id: 0, data: "", name: name});
         
         this.level = new Level(`
@@ -29,7 +35,16 @@ class LevelContextProvider extends Component {
 
     load = async (id) => {
 
-        this.level = new Level();
+        const response = await makeAPIRequest(`level/{id}`, "GET");
+
+        if (response && response.success) {
+
+            this.state = {...response.data};
+            this.level = new Level(this.state.data);
+            return true;
+        }
+
+        return false;
     }
 
     save = async () => {
@@ -39,7 +54,26 @@ class LevelContextProvider extends Component {
             return;
         }
 
+        this.state.data = this.level.toDataString();
+
+        const response = await makeAPIRequest(`level/{this.state.id}`, "PUT", this.state);
+
+        if (!response || !response.success) {
+
+            /// todo error
+        }
+
         console.log(this.level.toDataString());
+    }
+
+    getList = async () => {
+
+        const response = await makeAPIRequest(`levels`, "GET");
+
+        if (response && response.success) {
+
+            return response.data;
+        }
     }
 
     get = () => {
