@@ -12,39 +12,37 @@ class LevelContextProvider extends Component {
     state = {
         id: -1,
         data: "",
-        name: ""
+        name: "",
     };
-    level = null;
+    leve = null;
 
-    create = async (name) => {
+    create = async (name, email) => {
 
-        const response = await makeAPIRequest("level", "POST", name);
+        const response = await makeAPIRequest("level", "POST", {name: name, email: email});
 
         if (response && response.success) {
 
-            this.load(response.id);
+            this.load(response.data.id);
+
+        } else {
+
+            // todo error
         }
 
-        this.setState({id: 0, data: "", name: name});
-        
-        this.level = new Level(`
-        {"objects":[{"x":-1.6700000000000013,"y":-0.5000000000000002,"z":0,"v_x":0,"v_y":0,"v_z":0,"massCharge":1,"electricCharge":0}],"fields":[{"type":0,"x":"-x","y":"0"}]}`);
-
-        return {success: true};
+        return response;
     }
 
     load = async (id) => {
 
-        const response = await makeAPIRequest(`level/{id}`, "GET");
+        const response = await makeAPIRequest(`level/${id}`, "GET");
 
         if (response && response.success) {
 
-            this.state = {...response.data};
-            this.level = new Level(this.state.data);
-            return true;
+            this.setState({...response.data});
+            this.level = new Level(response.data.data);
         }
 
-        return false;
+        return response;
     }
 
     save = async () => {
@@ -56,7 +54,7 @@ class LevelContextProvider extends Component {
 
         this.state.data = this.level.toDataString();
 
-        const response = await makeAPIRequest(`level/{this.state.id}`, "PUT", this.state);
+        const response = await makeAPIRequest(`level/${this.state.id}`, "PUT", this.state);
 
         if (!response || !response.success) {
 
@@ -66,9 +64,9 @@ class LevelContextProvider extends Component {
         console.log(this.level.toDataString());
     }
 
-    getList = async () => {
+    getList = async (email) => {
 
-        const response = await makeAPIRequest(`levels`, "GET");
+        const response = await makeAPIRequest(`levels/${email}`, "GET");
 
         if (response && response.success) {
 
