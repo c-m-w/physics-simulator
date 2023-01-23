@@ -4,6 +4,7 @@ import {useState} from "react";
 
 import makeAPIRequest from "../utils/makeAPIRequest";
 import useLevel from "../hooks/useLevel";
+import useUser from "../hooks/useUser";
 
 // todo make popups into one fn
 
@@ -12,6 +13,7 @@ export default function NewLevelPopup(props) {
     const [name, setName] = useState("");
     const [status, setStatus] = useState("");
     const level = useLevel();
+    const user = useUser();
 
     const changeName = (e) => {
 
@@ -27,7 +29,7 @@ export default function NewLevelPopup(props) {
 
         e.preventDefault();
 
-        const response = await level.create(name);
+        const response = await level.create(name, user.email);
     
         if (response && response.success) {
 
