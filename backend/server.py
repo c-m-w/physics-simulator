@@ -111,8 +111,6 @@ def get_level_list(email):
 
     return make_response(True, data=data)
 
-# /api/levels/email (get level list)
-
 if __name__ == "__main__":
 
     app.run(debug=True, host="0.0.0.0", port="5000")

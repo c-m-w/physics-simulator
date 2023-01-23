@@ -11,12 +11,9 @@ class User(db.Model):
     email       = db.Column(db.String)
     password    = db.Column(db.String)
 
-# make Level class
 class Level(db.Model):
 
     id          = db.Column(db.Integer, primary_key=True)
     user_id     = db.Column(db.Integer)
     data        = db.Column(db.String)
     name        = db.Column(db.String)
-
-
