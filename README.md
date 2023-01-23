@@ -4,7 +4,7 @@
 
 ### title screen
 
-![Screenshot](title.png)
+![Screenshot](screenshots/title.png)
 
 ### simulator
 
@@ -12,4 +12,4 @@
 
 ![Screenshot](screenshots/simulator-blank.png)
 
-![Screenshot](simulator-load-level.png)
+![Screenshot](screenshots/simulator-load-level.png)
