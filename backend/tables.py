@@ -12,7 +12,11 @@ class User(db.Model):
     password    = db.Column(db.String)
 
 # make Level class
-#   int id
-#   int user_id (user id associated to the level)
-#   string title
-#   string data
+class Level(db.Model):
+
+    id          = db.Column(db.Integer, primary_key=True)
+    user_id     = db.Column(db.Integer)
+    data        = db.Column(db.String)
+    name        = db.Column(db.String)
+
+
