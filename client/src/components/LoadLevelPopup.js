@@ -3,6 +3,7 @@
 import {useState, useEffect} from "react";
 
 import useUser from "../hooks/useUser";
+import useLevel from "../hooks/useLevel";
 
 import makeAPIRequest from "../utils/makeAPIRequest";
 
@@ -10,10 +11,11 @@ import makeAPIRequest from "../utils/makeAPIRequest";
 
 export default function LoadLevelPopup(props) {
 
-    const [level, setLevel] = useState(-1);
+    const [level, setLevel] = useState(0);
     const [levels, setLevels] = useState([]);
     const [status, setStatus] = useState("");
     const user = useUser();
+    const currentLevel = useLevel();
 
     const changeSelectedLevel = (e) => {
 
@@ -29,11 +31,17 @@ export default function LoadLevelPopup(props) {
 
         e.preventDefault();
 
-        const response = await level.create();
+        if (-1 === level) {
+            
+            return;
+        }
+
+        const response = await currentLevel.load(levels[level].id);
     
         if (response && response.success) {
 
             props.closePopup();
+            console.log("close popup");
             /// todo success notification
         } else {
 
@@ -49,7 +57,7 @@ export default function LoadLevelPopup(props) {
 
             setLevels(response.data);
         }
-    })();}));
+    })();}), []);
 
     const levelElements = levels.map((l, i) => {
 
@@ -74,7 +82,7 @@ export default function LoadLevelPopup(props) {
                     </select>
                     <button
                         className="big"
-                        disabled={level === -1}>load</button>
+                        disabled={levels.length === 0 || level >= levels.length}>load</button>
                 </form>
                 <p className="status red">{status}</p>
             </div>
