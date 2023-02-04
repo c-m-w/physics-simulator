@@ -44,6 +44,7 @@ def send_static(path, file):
 #
 ##############################
 
+@app.route("/images/<string:file>", defaults={"path": ""})
 @app.route("/images/<path:path>/<string:file>")
 def send_asset(path, file):
 
