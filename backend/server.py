@@ -1,6 +1,8 @@
 ### server.py
 
-from flask import Flask
+import os
+
+from flask import Flask, send_from_directory
 from flask import request
 from flask_cors import CORS
 
@@ -17,10 +19,35 @@ with app.app_context():
 
     db.create_all()
 
-@app.route("/")
-def default():
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def client(path):
 
-    return "hello"
+    return send_from_directory("public/client/", "index.html")
+
+##############################
+#
+# static js, css
+#
+##############################
+
+@app.route("/public/<path:path>/<string:file>")
+def send_static(path, file):
+
+    print("send static", path, file)
+
+    return send_from_directory("public/" + path, file)
+
+##############################
+#
+# assets
+#
+##############################
+
+@app.route("/images/<path:path>/<string:file>")
+def send_asset(path, file):
+
+    return send_from_directory("public/images/" + path, file)
 
 @app.route("/api/register", methods=["POST"])
 def register():
@@ -113,4 +140,5 @@ def get_level_list(email):
 
 if __name__ == "__main__":
 
-    app.run(debug=True, host="0.0.0.0", port="5000")
+    server_port = int(os.environ.get("PORT", 5000)) 
+    app.run(debug=False, host="0.0.0.0", port=server_port)
